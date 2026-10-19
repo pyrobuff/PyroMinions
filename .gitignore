@@ -1,0 +1,24 @@
+# Local dependencies and generated artifacts
+/lib/
+/dist/
+/build/
+/.smoke-server/
+/.compatibility-servers/
+/test-results/
+/TEST-RESULTS.md
+*.log
+*.previous
+
+# Editor and operating system files
+/.idea/
+/.vscode/
+*.iml
+Thumbs.db
+.DS_Store
+
+
+/build.ps1
+/smoke-test.ps1
+/compatibility-test.ps1
+/src/test/
+/src/smoke/

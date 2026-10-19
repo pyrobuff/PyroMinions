@@ -1,0 +1,73 @@
+# PyroMinions 1.0.0 | Yapımcı: pyroBuff
+# Tür ve seviye ayarları. Başarılı işler minyonun canını tüketir.
+# Balıkçı önündeki suyu kullanır. Madenci boşken can harcamaz.
+# Minyon türünün görünen adı.
+name: Madenci Minyon
+# Seviyeler 1 ile başlayıp sıralı devam eder. Son seviyeden sonra yükseltme yapılmaz.
+tiers:
+  '1':
+    # Çalışma aralığı (tick); 20 TPS altında 20 tick = 1 saniye. İlk başlangıç yük dağıtımı nedeniyle tam aralık ile yaklaşık iki aralık arasında bekler.
+    interval-ticks: 240
+    # Bu seviyenin maksimum canı/enerjisi. Can sıfırsa çalışmaz.
+    max-health: 300
+    # Ürünün iki kat çıkma ihtimali (yüzde, 0–100).
+    double-drop-chance: 5
+    # Madencinin baktığı yönde aynı yükseklikte kıracağı blok mesafesi (1–9). Uygun bloklar tek turda kırılır.
+    reach: 1
+    # Bu seviyeden sonraki seviyeye yükseltme ücreti. Son seviyede 0 olması yeni seviye oluşturmaz.
+    upgrade-price: 20000
+  '2':
+    interval-ticks: 180
+    max-health: 450
+    double-drop-chance: 10
+    reach: 2
+    upgrade-price: 50000
+  '3':
+    interval-ticks: 120
+    max-health: 600
+    double-drop-chance: 15
+    reach: 3
+    upgrade-price: 0
+# Madencinin kırabileceği Minecraft blok adları. Sandık ve benzeri envanterli bloklar kırılmaz.
+blocks:
+- STONE
+- COBBLESTONE
+- DEEPSLATE
+- COBBLED_DEEPSLATE
+- GRANITE
+- DIORITE
+- ANDESITE
+- TUFF
+- CALCITE
+- BASALT
+- BLACKSTONE
+- NETHERRACK
+- END_STONE
+- COAL_ORE
+- IRON_ORE
+- COPPER_ORE
+- GOLD_ORE
+- REDSTONE_ORE
+- LAPIS_ORE
+- DIAMOND_ORE
+- EMERALD_ORE
+- DEEPSLATE_COAL_ORE
+- DEEPSLATE_IRON_ORE
+- DEEPSLATE_COPPER_ORE
+- DEEPSLATE_GOLD_ORE
+- DEEPSLATE_REDSTONE_ORE
+- DEEPSLATE_LAPIS_ORE
+- DEEPSLATE_DIAMOND_ORE
+- DEEPSLATE_EMERALD_ORE
+- NETHER_QUARTZ_ORE
+- NETHER_GOLD_ORE
+
+# Bu minyon türünün dahili market ayarları.
+shop:
+  # Bu türün marketten satın alınmasını açar/kapatır.
+  enabled: true
+  # Marketten satın alınan minyonun başlangıç seviyesi; tiers içinde tanımlı olmalıdır.
+  level: 1
+  # Bu türün market satış fiyatı; Vault ekonomi sağlayıcısıyla tahsil edilir.
+  price: 4000
+

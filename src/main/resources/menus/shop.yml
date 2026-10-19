@@ -1,0 +1,57 @@
+# PyroMinions 1.0.0 | Yapımcı: pyroBuff
+# Menü görünümü. Kutular 0 ile başlar; yalnızca bu menüde desteklenen yer tutucuları kullanın.
+# Menünün başlığı; & renk kodları ve bu menüye uygun %yer_tutucular% kullanılabilir.
+title: '&6Minyon Marketi'
+# Envanter boyutu: 9–54 arası, 9 katı olmalıdır.
+size: 27
+# Boş kutuların doldurulacağı Minecraft materyal adı.
+filler: BLACK_STAINED_GLASS_PANE
+# Menü düğmeleri. Mevcut düğme anahtarlarını koruyarak görünüş ve konumlarını düzenleyebilirsiniz.
+items:
+  miner:
+    # Düğmenin kutusu; 0 ilk kutudur. Son kutu size - 1 olur. Aynı kutuya iki düğme koymayın.
+    slot: 11
+    # Düğmenin çalıştıracağı plugin işlemi; yalnızca pluginin desteklediği değerleri kullanın.
+    action: buy:miner
+    # Minecraft materyal adı. MINION_HEAD özel değeri minyon kafasını gösterir.
+    material: MINION_HEAD
+    # Eşyanın görünen adı; & renk kodları kullanılabilir.
+    name: '&e%type%'
+    # Eşyanın alt açıklama satırları. Boş satır için boş tırnak kullanın. Mevcut %yer_tutucular% değerlerini koruyun.
+    lore:
+      - ''
+      - '&7Seviye: &b%level%'
+      - '&7Fiyat: &6%price%'
+      - ''
+      - '&aSatın almak için tıkla.'
+      - '&7Yerleştiren oyuncu sahibi olur.'
+  fisher:
+    slot: 13
+    action: buy:fisher
+    material: MINION_HEAD
+    name: '&e%type%'
+    lore:
+      - ''
+      - '&7Seviye: &b%level%'
+      - '&7Fiyat: &6%price%'
+      - ''
+      - '&aSatın almak için tıkla.'
+      - '&7Yerleştiren oyuncu sahibi olur.'
+  feeder:
+    slot: 15
+    action: buy:feeder
+    material: MINION_HEAD
+    name: '&e%type%'
+    lore:
+      - ''
+      - '&7Seviye: &b%level%'
+      - '&7Fiyat: &6%price%'
+      - ''
+      - '&aSatın almak için tıkla.'
+      - '&7Yerleştiren oyuncu sahibi olur.'
+  close:
+    slot: 22
+    material: OAK_DOOR
+    name: '&cKapat'
+    lore: []
+

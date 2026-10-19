@@ -1,0 +1,128 @@
+# PyroMinions 1.0.0 | Yapımcı: pyroBuff
+# Oyuncu mesajları. & renk kodları desteklenir; YAML anahtarlarını ve yer tutucuları koruyun.
+# Oyuncuya gönderilen mesajların başına eklenen yazı.
+prefix: '&8[&6&lPyro&f&lMinions&8] &r'
+# Menülerde ve eşyalarda kullanılan kısa metinler ve etiketler.
+labels:
+  level-format: '%name% %level%. Seviye'
+  no-chest: Yok
+  enabled: Açık
+  disabled: Kapalı
+  selected: '&aSeçili'
+  select: '&7Seçmek için tıkla.'
+  max-level: Son seviye
+  feeder-level-range: '&7%level%. Seviye besleme alanı: &b%diameter%x%diameter% blok &8(%radius% blok yarıçap)'
+  cancel-word: iptal
+  statistics-units:
+    miner: Blok
+    fisher: Balık
+    feeder: Besleme
+# Minyon eşyasının açıklaması; %level%, %statistics%, %statistics_unit% desteklenir.
+item-lore:
+- '&7Seviye: &b%level%'
+- '&7İstatistikler: &f%statistics% %statistics_unit%'
+# Oyuncu ve yönetici yardım komutu satırları.
+# Yardım renkleri: altın başlık, sarı komut, mavi zorunlu ve gri isteğe bağlı parametre.
+help:
+  player:
+    - ''
+    - '&8&m----------------------------------------'
+    - '&6&lPyroMinions &8» &fOyuncu komutları'
+    - '&e/pm &8— &7Minyonlarını görüntüle.'
+    - '&e/pm shop &8— &7Minyon marketini aç.'
+    - '&e/pm help &8— &7Komutları ve kullanımını göster.'
+    - '&8Diğer adlar: &7/pminions, /pyrominion, /pyrominions'
+    - '&8Alt komutlar: &7list / minions / menu &8• &7shop / market &8• &7help / about'
+    - '&8&m----------------------------------------'
+  admin:
+    - ''
+    - '&6&lPyroMinions &8» &fYönetici komutları'
+    - '&e/pma get &b<tür> &7[seviye] [adet] &8— &fKendine minyon ver.'
+    - '&e/pma give &b<tür> <oyuncu> &7[seviye] [adet] &8— &fÇevrimiçi oyuncuya ver.'
+    - '&e/pma minions &7[oyuncu] &8— &fMinyon listesini aç.'
+    - '&e/pma info &b<uuid> &8— &fMinyonun kayıt bilgilerini göster.'
+    - '&e/pma remove &7[uuid] &8— &cMinyonu eşya iadesiz sil.'
+    - '&e/pma reload &8— &fAyarları, mesajları ve menüleri yenile.'
+    - '&e/pma stats &8— &fKayıtlı ve chunkı yüklü minyon sayılarını göster.'
+    - '&8Türler: &bminer &7(madenci), &bfisher &7(balıkçı), &bfeeder &7(besleyici)'
+    - '&b<...> &7zorunlu &8| &7[...] isteğe bağlı &8| &7Seviye/adet varsayılanı: &f1'
+    - '&7Örnek: &e/pma give miner Oyuncu 2 3'
+    - '&c! &7UUID yazmadan silmek için minyona en fazla &f5 blok &7uzaktan bak.'
+    - '&8Diğer ad: &7/pyrominionsadmin &8| &7Yardım: &e/pma help'
+    - '&8&m----------------------------------------'
+# Bilgi: altın; başarı: yeşil +; uyarı: sarı !; hata: kırmızı !.
+messages:
+  transfer-failed: '&c&l! &r&7Minyon işlemi kaydedilemedi. Eşyan ve minyonun korundu; yöneticiye haber ver.'
+  no-permission: '&c&l! &r&7Bu işlemi yapmak için &cyetkin yok&7.'
+  player-only: '&c&l! &r&7Bu komutu oyun içinden kullan.'
+  offline: '&c&l! &r&7Oyuncu çevrimiçi değil.'
+  too-far: '&c&l! &r&7Minyonu yönetmek için yanına git.'
+  unavailable: '&c&l! &r&7Minyon artık erişilebilir değil.'
+  not-owner: '&c&l! &r&7Bu minyon sana ait değil veya çok uzakta.'
+  owner-pickup-only: '&c&l! &r&7Minyonu yalnızca &fsahibi &7kaldırabilir. Yönetici silme komutu: &e/pma remove&7.'
+  pickup-not-full: '&e&l! &r&7Kaldırmadan önce minyonun canını &atamamen doldur&7.'
+  inventory-full: '&c&l! &r&7Envanterinde boş bir yer aç.'
+  picked-up: '&a&l+ &r&7Minyon envanterine alındı.'
+  remove-first: '&c&l! &r&7Önce minyonu kaldır.'
+  already-full: '&e&l! &r&7Minyonun canı zaten tam.'
+  fed: '&a&l+ &r&7Minyonun canı tamamen dolduruldu.'
+  hand-fed: '&a&l+ &r&7Pişmiş inek etiyle &a%amount% can &7dolduruldu. &8[&c%health%&8/&c%max_health%&8]'
+  max-level: '&e&l! &r&7Minyon son seviyede.'
+  upgraded: '&a&l+ &r&7Minyon &b%level%. seviyeye &7yükseldi.'
+  insufficient-money: '&c&l! &r&7Yeterli paran yok. &8| &7Gerekli: &6%price%'
+  shop-disabled: '&c&l! &r&7Bu minyon şu anda satışta değil veya market kapalı.'
+  shop-purchased: '&a&l+ &r&f%type% &8(&b%level%. seviye&8) &7satın alındı. &8| &7Ücret: &6%price%'
+  shop-refunded: '&c&l! &r&7Minyon envantere eklenemedi; ödeme iade edildi.'
+  shop-refund-failed: '&c&l! &r&7Ödeme iadesi başarısız oldu. Yöneticiye haber ver.'
+  shop-price-changed: '&e&l! &r&7Fiyat değişti; market yenilendi. Yeni fiyatı kontrol edip tekrar tıkla.'
+  payment-failed: '&c&l! &r&7Ödeme başarısız: &f%reason%&7'
+  link-prompt: '&e&l» &r&7Bağlayacağın sandığa &esağ tıkla&7. &8| &7Süre: &f30 saniye'
+  link-expired: '&c&l! &r&7Sandık bağlama süresi doldu veya minyondan uzaktasın.'
+  invalid-chest: '&c&l! &r&7İki yarısına da erişilebilen, aynı adada ve mesafe içinde bir sandık seç.'
+  chest-too-far: '&c&l! &r&7Sandık en fazla &f%range%&7 blok uzakta olabilir.'
+  linked: '&a&l+ &r&7Sandık bağlandı. Dolarsa fazla ürünler yere düşer.'
+  unlinked: '&e&l! &r&7Sandık bağı kaldırıldı.'
+  placement-permission: '&c&l! &r&7Minyon yerleştirme yetkin yok.'
+  place-on-top: '&c&l! &r&7Minyonu bir bloğun üstüne yerleştir.'
+  invalid-location: '&c&l! &r&7Bu konuma minyon yerleştiremezsin.'
+  occupied: '&c&l! &r&7Bu konumda zaten minyon var.'
+  limit: '&c&l! &r&7Minyon sınırına ulaştın.'
+  # Kişisel sınır dolduğunda gösterilir; %limit% oyuncunun permission ile hesaplanan hakkıdır.
+  player-limit: '&e&l! &r&7Kişisel minyon sınırına ulaştın. &8| &7Hakkın: &b%limit%'
+  # Ada toplam sınırı dolduğunda gösterilir; %limit% ortak ada sınırıdır.
+  island-limit: '&e&l! &r&7Adanın toplam minyon sınırına ulaşıldı. &8| &7Ada hakkı: &b%limit%'
+  protected: '&c&l! &r&7Bu bölge korumalı.'
+  placed: '&a&l+ &r&7&f%type%&7 yerleştirildi.'
+  placement-failed: '&c&l! &r&7Minyon yerleştirilemedi: &f%reason%&7'
+  rename-prompt: '&e&l» &r&7Yeni ismi sohbete yaz. &8| &7Süre: &f60 saniye &8| &7Vazgeçmek için: &eiptal'
+  rename-expired: '&c&l! &r&7İsim değiştirme süresi doldu veya minyondan uzaktasın.'
+  rename-cancelled: '&e&l! &r&7İsim değiştirme iptal edildi.'
+  rename-invalid: '&c&l! &r&7İsim 1–32 karakter olmalı; renk ve kontrol kodu kullanma.'
+  renamed: '&a&l+ &r&7Minyonun ismi değiştirildi.'
+  removed: '&c&l! &r&7Minyon &ckalıcı olarak silindi&7. &eEşya iadesi yapılmadı.'
+  not-found: '&c&l! &r&7Minyon bulunamadı.'
+  granted: '&a&l+ &r&f%player% &7oyuncusuna &b%amount% adet &f%type% &7verildi.'
+  reloaded: '&a&l+ &r&7Ayarlar, mesajlar ve menüler &ayenilendi&7. &eOtomatik kayıt aralığı &7değişikliği yeniden başlatmada uygulanır.'
+  reload-failed: '&c&l! &r&7Yeni ayarlar uygulanmadı; önceki ayarlar korunuyor. &8| &c%reason%'
+  stats: '&6&lİstatistikler &8» &7Kayıtlı: &b%total% &8| &7Chunkı yüklü: &a%loaded%'
+  info: |-
+    &6&lMinyon bilgisi
+    &8» &7Tür: &f%type% &8| &7Seviye: &b%level%
+    &8» &7Sahip: &f%owner%
+    &8» &7Can: &c%health%&8/&c%max_health%
+    &8» &7UUID: &8%id%
+  error: '&c&l! &r&7%reason%'
+
+  # Komut hataları: kullanım sarı, zorunlu alanlar mavi ve isteğe bağlı alanlar gri görünür.
+  usage-get: '&7Kullanım: &e/pma get &b<tür> &7[seviye] [adet] &8| &7Örnek: &e/pma get miner 1 3'
+  usage-give: '&7Kullanım: &e/pma give &b<tür> <oyuncu> &7[seviye] [adet] &8| &7Örnek: &e/pma give miner Oyuncu 1 3'
+  usage-remove: '&7Kullanım: &e/pma remove &7[uuid] &8| &7UUID yaz veya minyona bak. &cEşya iadesi yoktur.'
+  usage-info: '&7Kullanım: &e/pma info &b<uuid> &8| &7Kayıtlı UUID önerileri için komutta &eTab &7tuşunu kullan.'
+  get-player-only: '&e/pma get &7oyun içinden kullanılır. Konsolda &e/pma give &b<tür> <oyuncu> &7[seviye] [adet] kullan.'
+  invalid-type: '&7Geçerli türler: &bminer &7(madenci), &bfisher &7(balıkçı), &bfeeder &7(besleyici).'
+  invalid-uuid: '&7Geçerli bir &bminyon UUID &7değeri yaz. Örnek komut: &e/pma info &b<uuid>'
+  invalid-number: '&7Seviye ve adet &ftam sayı &7olmalı. Örnek: &e/pma get miner 1 3'
+  invalid-level: '&7Bu tür için yazdığın &bseviye &7tanımlı değil. Minyonun seviye ayarlarını kontrol et.'
+  invalid-amount: '&7Adet &b1–64 &7arasında bir tam sayı olmalı.'
+  grant-inventory-full: '&7Oyuncunun envanterinde &eyeterli boş yer &7yok. Yer açıp tekrar dene.'
+

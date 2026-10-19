@@ -1,0 +1,78 @@
+# PyroMinions 1.0.0 | Yapımcı: pyroBuff
+# Menü görünümü. Kutular 0 ile başlar; yalnızca bu menüde desteklenen yer tutucuları kullanın.
+# Menünün başlığı; & renk kodları ve bu menüye uygun %yer_tutucular% kullanılabilir.
+title: '&6Minyonlar'
+# Envanter boyutu: 9–54 arası, 9 katı olmalıdır.
+size: 54
+# Boş kutuların doldurulacağı Minecraft materyal adı.
+filler: BLACK_STAINED_GLASS_PANE
+# Minyon/skin gibi dinamik listelerin gösterim ayarları.
+entries:
+  # Dinamik kayıtlar için ayrılan kutular; numaralandırma 0 ile başlar.
+  slots:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+    - 9
+    - 10
+    - 11
+    - 12
+    - 13
+    - 14
+    - 15
+    - 16
+    - 17
+    - 18
+    - 19
+    - 20
+    - 21
+    - 22
+    - 23
+    - 24
+    - 25
+    - 26
+    - 27
+    - 28
+    - 29
+    - 30
+    - 31
+    - 32
+    - 33
+    - 34
+    - 35
+    - 36
+    - 37
+    - 38
+    - 39
+    - 40
+    - 41
+    - 42
+    - 43
+    - 44
+  # Minecraft materyal adı. MINION_HEAD özel değeri minyon kafasını gösterir.
+  material: MINION_HEAD
+  # Eşyanın görünen adı; & renk kodları kullanılabilir.
+  name: '&e%display_name%'
+  # Eşyanın alt açıklama satırları. Boş satır için boş tırnak kullanın. Mevcut %yer_tutucular% değerlerini koruyun.
+  lore:
+    - ''
+    - '&7Can: &c%health%/%max_health%'
+    - '&7Konum: &f%x%, %y%, %z%'
+    - '&7Yakındaysan yönetmek için tıkla.'
+# Menü düğmeleri. Mevcut düğme anahtarlarını koruyarak görünüş ve konumlarını düzenleyebilirsiniz.
+items:
+  close:
+    # Düğmenin kutusu; 0 ilk kutudur. Son kutu size - 1 olur. Aynı kutuya iki düğme koymayın.
+    slot: 49
+    material: OAK_DOOR
+    name: '&cKapat'
+    lore:
+      - ''
+      - '&7Toplam minyon: %total%'
+

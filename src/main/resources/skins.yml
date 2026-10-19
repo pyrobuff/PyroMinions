@@ -1,0 +1,140 @@
+# PyroMinions 1.0.0 | Yapımcı: pyroBuff
+# Yalnızca görünüş ayarlarıdır; üretim hızını ve limitleri değiştirmez.
+# Görünüş kataloğu. classic anahtarı zorunludur; toplam en fazla 27 skin tanımlanabilir.
+skins:
+  classic:
+    # Skin seçim menüsünde gösterilen ad.
+    name: Varsayılan
+    # textures.minecraft.net/texture/ adresi veya texture hash değeri. Oyuncu adı değildir.
+    head-texture: d5dcf1c28f547956ad1c83877dd93dd9e271fa5c2e87370895c7e65c75ece631
+    # İsteğe bağlı tür kafaları: miner, fisher, feeder. Tanımlanmayan tür head-texture değerini kullanır.
+    type-heads:
+      fisher: 53d9144989857f0a7681d43096bd97b42623222419e5f132d72aa037cab15b61
+      feeder: d71f2348de66ba90180bafd44298a8d160b562c00f35f90a8bc4587517ac879
+    # Deri göğüslük rengi: 6 haneli RGB HEX. Başına # koymayın; örnek: 'CC1526'.
+    chest-color: '808080'
+    # Deri pantolon rengi: 6 haneli RGB HEX; renk değerini tırnak içinde yazabilirsiniz.
+    legs-color: '454545'
+    # Deri bot rengi: 6 haneli RGB HEX.
+    boots-color: '292929'
+  spiderman:
+    name: Örümcek Adam
+    # https://www.minecraft-heads.com/custom-heads/head/52747-spiderman
+    head-texture: cdbe942358b178bd965a7db9a72c66780cdeeb7e5cd601cfae7eaa6a29912ec2
+    chest-color: CC1526
+    legs-color: 1849A9
+    boots-color: CC1526
+  batman:
+    name: Batman
+    head-texture: c090383e93ba4c8418b2db11cad6dae0c38e29fad5f5dba22bfc76d957fbb66e
+    chest-color: '353535'
+    legs-color: '202020'
+    boots-color: '111111'
+    # Skin dokusunun kaynak bağlantısı; görünüşü değiştirmez.
+    source: https://minecraft-heads.com/custom-heads/head/103197-batman
+  superman:
+    name: Superman
+    head-texture: 6b14e33e5088f19a3029d2ad91d7ddf502ce73810b92abd249f9584647718ed9
+    chest-color: 2053BC
+    legs-color: 2053BC
+    boots-color: CC1726
+    source: https://minecraft-heads.com/custom-heads/head/29587-superman
+  ironman:
+    name: Demir Adam
+    head-texture: 4cd652c720c7adb2ec57c1f07352fd1d87bb036546cbe54942f18efd6ee2b43b
+    chest-color: AA1520
+    legs-color: AA1520
+    boots-color: D6AC38
+    source: https://minecraft-heads.com/custom-heads/head/40045-iron-man
+  captainamerica:
+    name: Kaptan Amerika
+    head-texture: e53cf7ca5349a2dbc85ad5228c087343f4132a5d6a69479eb14186f8b999
+    chest-color: 204EA3
+    legs-color: 204EA3
+    boots-color: B1252D
+    source: https://minecraft-heads.com/custom-heads/head/2821-captain-america
+  hulk:
+    name: Hulk
+    head-texture: bba3e62c5810a567c2654daf7ae13765e7bc964e4ff124a9aa6608026554b7a
+    chest-color: 53A642
+    legs-color: 71398E
+    boots-color: 53A642
+    source: https://minecraft-heads.com/custom-heads/head/3327-hulk
+  thor:
+    name: Thor
+    head-texture: 470b9d621cf4ba7d4e2df72130d430cda465304c3f6e72b397087d71561b873e
+    chest-color: 4C5262
+    legs-color: '242839'
+    boots-color: 3D414C
+    source: https://minecraft-heads.com/index.php/custom-heads/head/103036-thor
+  flash:
+    name: Flash
+    head-texture: af70f1a5bf63bd9ccd2be375b116e79d134cb59c0e9437a9bd87751a1f58e874
+    chest-color: C91D28
+    legs-color: C91D28
+    boots-color: FFD136
+    source: https://minecraft-heads.com/custom-heads/head/82283-flash
+  deadpool:
+    name: Deadpool
+    head-texture: 1f6b5987780264aaf55dc8212041da679ad314489566671772e94b89af437a23
+    chest-color: A31C2E
+    legs-color: '292929'
+    boots-color: A31C2E
+    source: https://minecraft-heads.com/custom-heads/head/103223-deadpool
+  wolverine:
+    name: Wolverine
+    head-texture: cb9dd25c18305f9444ea3cbe3c7b1bd644834726b31e8dca90fcd27807677299
+    chest-color: F0C826
+    legs-color: 25479E
+    boots-color: 25479E
+    source: https://minecraft-heads.com/custom-heads/head/101446-wolverine
+  joker:
+    name: Joker
+    head-texture: 5e76efbe928a56f610790367d965743abb52ce7b7e74dc28a3828db436a580b8
+    chest-color: 653E8D
+    legs-color: 653E8D
+    boots-color: '252525'
+    source: https://www.minecraft-heads.com/custom-heads/head/34134-the-joker
+  harleyquinn:
+    name: Harley Quinn
+    head-texture: 2e63d9222cba256adb27d3955129557bb3c2e2fe630da8cda58719943ed
+    chest-color: B83041
+    legs-color: 25428C
+    boots-color: '202020'
+    source: https://minecraft-heads.com/custom-heads/head/1596-harley-quinn
+  thanos:
+    name: Thanos
+    head-texture: ec21368e7abab75379ae51af7ae21ec6719eae67a5372c0bbf0c92bc4a0c8758
+    chest-color: D3AB43
+    legs-color: 423B78
+    boots-color: D3AB43
+    source: https://minecraft-heads.com/custom-heads/head/113624-thanos
+  venom:
+    name: Venom
+    head-texture: f9660bbae54e788283db2fa80b65c76754f164acba0e0b33fbc7ae95d6852d73
+    chest-color: 17171B
+    legs-color: 17171B
+    boots-color: 17171B
+    source: https://minecraft-heads.com/custom-heads/head/40480-venom
+  blackpanther:
+    name: Kara Panter
+    head-texture: d98d61893d4095269fc538a862a2b7d2c2c3d56666d5a7f57ba6c21de74cc2c7
+    chest-color: 25212E
+    legs-color: 15131B
+    boots-color: 15131B
+    source: https://cdn.minecraft-heads.com/custom-heads/head/119643-black-panther
+  doctorstrange:
+    name: Doctor Strange
+    head-texture: 6d85d5bcae13cd8edaf4759df66cf63e88a10be901914ac8938ba90dd9f5d297
+    chest-color: 24567D
+    legs-color: 18324A
+    boots-color: '453328'
+    source: https://minecraft-heads.com/custom-heads/head/19939-doctor-strange
+  loki:
+    name: Loki
+    head-texture: f6283f62a164276c83dadf1e2c2dd65b555cbf6d164b870180312167f1f369ab
+    chest-color: 24513C
+    legs-color: 243B30
+    boots-color: B5953A
+    source: https://minecraft-heads.com/custom-heads/head/109253-loki
+

@@ -1,0 +1,113 @@
+# PyroMinions 1.0.0 | Yapımcı: pyroBuff
+# Menü görünümü. Kutular 0 ile başlar; yalnızca bu menüde desteklenen yer tutucuları kullanın.
+# Menünün başlığı; & renk kodları ve bu menüye uygun %yer_tutucular% kullanılabilir.
+title: '&6PyroMinions &8• &f%name%'
+# Envanter boyutu: 9–54 arası, 9 katı olmalıdır.
+size: 54
+# Boş kutuların doldurulacağı Minecraft materyal adı.
+filler: BLACK_STAINED_GLASS_PANE
+# Menü düğmeleri. Mevcut düğme anahtarlarını koruyarak görünüş ve konumlarını düzenleyebilirsiniz.
+items:
+  overview:
+    # Düğmenin kutusu; 0 ilk kutudur. Son kutu size - 1 olur. Aynı kutuya iki düğme koymayın.
+    slot: 4
+    # Minecraft materyal adı. MINION_HEAD özel değeri minyon kafasını gösterir.
+    material: MINION_HEAD
+    # Eşyanın görünen adı; & renk kodları kullanılabilir.
+    name: '&e%display_name%'
+    # Eşyanın alt açıklama satırları. Boş satır için boş tırnak kullanın. Mevcut %yer_tutucular% değerlerini koruyun.
+    lore:
+      - ''
+      - '&7Can: &c%health%/%max_health%'
+  north:
+    slot: 19
+    material: COMPASS
+    name: '&eKuzeye döndür'
+    lore:
+      - ''
+      - '&7Kuzey yönüne bakar.'
+  south:
+    slot: 20
+    material: COMPASS
+    name: '&eGüneye döndür'
+    lore:
+      - ''
+      - '&7Güney yönüne bakar.'
+  west:
+    slot: 21
+    material: COMPASS
+    name: '&eBatıya döndür'
+    lore:
+      - ''
+      - '&7Batı yönüne bakar.'
+  east:
+    slot: 22
+    material: COMPASS
+    name: '&eDoğuya döndür'
+    lore:
+      - ''
+      - '&7Doğu yönüne bakar.'
+  link:
+    slot: 24
+    material: CHEST
+    name: '&eSandığa bağla'
+    lore:
+      - ''
+      - '&730 saniye içinde sandığa &2sağ tıkla.'
+      - '&7En fazla &5%chest_range% blok.'
+      - '&7Bağlı sandık: &6%chest%'
+  unlink:
+    slot: 25
+    material: BARRIER
+    name: '&cSandık bağını kaldır'
+    lore:
+      - ''
+      - '&7Ürünler yere düşmeye başlar.'
+  feed:
+    slot: 29
+    material: GOLDEN_APPLE
+    name: '&eParayla besle'
+    lore:
+      - ''
+      - '&7Canı tamamen doldurur.'
+      - '&7Ücret: &6%feed_price%'
+      - '&7Elle besleme: pişmiş inek eti.'
+  properties:
+    slot: 31
+    material: BOOK
+    name: '&eÖzellikler'
+    lore:
+    - ''
+    - '&7İstatistikler: &6%statistics% %statistics_unit%'
+    - '&7Seviye: &b%level%'
+    - '&7Can: &c%health%/%max_health%'
+    - '&7İşlem aralığı: &2%interval% saniye'
+    - '&72x drop şansı: &5%double_chance%%'
+  settings:
+    slot: 33
+    material: COMPARATOR
+    name: '&eMinyon ayarları'
+    lore:
+      - ''
+      - '&7Hologram • Skin • İsim'
+  upgrade:
+    slot: 40
+    material: ANVIL
+    name: '&eSeviye yükselt'
+    lore:
+      - ''
+      - '&7Durum: &f%upgrade_status%'
+      - '&7Ücret: &6%upgrade_price%'
+  pickup-info:
+    slot: 48
+    material: MINION_HEAD
+    name: '&eMinyonu kaldırma'
+    lore:
+      - ''
+      - '&7Canı tamken sahibi sol tıklayabilir.'
+  close:
+    slot: 49
+    material: OAK_DOOR
+    name: '&cKapat'
+    lore: []
+

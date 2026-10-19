@@ -1,0 +1,44 @@
+# PyroMinions 1.0.0 | Yapımcı: pyroBuff
+# Menü görünümü. Kutular 0 ile başlar; yalnızca bu menüde desteklenen yer tutucuları kullanın.
+# Menünün başlığı; & renk kodları ve bu menüye uygun %yer_tutucular% kullanılabilir.
+title: '&6Minyon ayarları'
+# Envanter boyutu: 9–54 arası, 9 katı olmalıdır.
+size: 27
+# Boş kutuların doldurulacağı Minecraft materyal adı.
+filler: BLACK_STAINED_GLASS_PANE
+# Menü düğmeleri. Mevcut düğme anahtarlarını koruyarak görünüş ve konumlarını düzenleyebilirsiniz.
+items:
+  hologram:
+    # Düğmenin kutusu; 0 ilk kutudur. Son kutu size - 1 olur. Aynı kutuya iki düğme koymayın.
+    slot: 11
+    # Minecraft materyal adı. MINION_HEAD özel değeri minyon kafasını gösterir.
+    material: NAME_TAG
+    # Eşyanın görünen adı; & renk kodları kullanılabilir.
+    name: '&eHologram: %hologram%'
+    # Eşyanın alt açıklama satırları. Boş satır için boş tırnak kullanın. Mevcut %yer_tutucular% değerlerini koruyun.
+    lore:
+      - ''
+      - '&7Açmak veya kapatmak için tıkla.'
+  skins:
+    slot: 13
+    material: MINION_HEAD
+    name: '&eSkin seç'
+    lore:
+      - ''
+      - '&7Mevcut: &f%skin_name%'
+      - '&7Kafa ve kıyafet birlikte değişir.'
+  rename:
+    slot: 15
+    material: WRITABLE_BOOK
+    name: '&eİsim değiştir'
+    lore:
+      - ''
+      - '&7Yeni ismi sohbete yaz.'
+      - '&7Seviye eki her zaman korunur.'
+      - '&7Vazgeçmek için: iptal'
+  back:
+    slot: 22
+    material: ARROW
+    name: '&eGeri'
+    lore: []
+

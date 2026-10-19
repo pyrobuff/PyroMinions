@@ -1,0 +1,25 @@
+# PyroMinions 1.0.0 | Yapımcı: pyroBuff
+# Genel ayarlar. # ile başlayan satırlar açıklamadır; oyun ayarı değildir.
+# Değişikliklerden sonra /pma reload kullanın. Minyon sahibinin çevrimiçi ve chunk yükünün açık olması gerekir.
+# Minyon seviyeleri ekonomi sağlayıcısı üzerinden para ile yükseltilir.
+# Dosya şema sürümü; plugin sürümü değildir. Elle değiştirmeyin.
+config-version: 4
+# Otomatik kayıt aralığı (saniye). Snapshot ana thread üzerinde, YAML ve disk yazımı arka planda yapılır. İşlem ve kapanış kayıtları ayrıca alınır.
+save-interval-seconds: 30
+# İzni olmayan oyuncunun toplam minyon hakkı. minion.max.3 tam 3 hak verir; birden fazla sayısal izinde en yüksek değer kullanılır. Tüm türler ve adalar birlikte sayılır.
+max-per-player: 20
+# SuperiorSkyblock2 adasındaki tüm oyuncuların ortak toplam sınırı. Kişisel permission bu sınırı aşamaz. Her iki limitte 0 yeni yerleştirmeyi kapatır; mevcut minyonlar korunur.
+max-per-island: 20
+# true: SuperiorSkyblock2 zorunludur. false: SuperiorSkyblock2 olmadan da çalışabilir. Superior kuruluysa ada sahibi/üyelik ve ada alanı kontrolleri uygulanır.
+require-island: true
+# Minyon ile ürünlerin gönderileceği sandık arasındaki en fazla mesafe (blok). Sandık dolarsa fazla ürünler yere düşer.
+chest-link-distance: 8
+# Parayla beslemede eksik her 1 can için Vault üzerinden alınacak ücret.
+feed-price-per-point: 0.5
+# Pişmiş inek etiyle elle beslemede bir etin verdiği can. Maksimum can aşılmaz; canı doluyken et tüketilmez.
+hand-feed-health: 50
+# Minyonun üstündeki yazı. %name% isim, %level% seviye; & renk kodları desteklenir.
+hologram-format: '&e%name% &b%level%. Seviye'
+# Plugin içindeki minyon marketini açar/kapatır. Türün shop.enabled ayarı da açık olmalıdır.
+shop-enabled: true
+

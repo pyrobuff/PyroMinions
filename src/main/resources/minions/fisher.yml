@@ -1,0 +1,42 @@
+# PyroMinions 1.0.0 | Yapımcı: pyroBuff
+# Tür ve seviye ayarları. Başarılı işler minyonun canını tüketir.
+# Balıkçı önündeki suyu kullanır. Madenci boşken can harcamaz.
+# Minyon türünün görünen adı.
+name: Balıkçı Minyon
+# Seviyeler 1 ile başlayıp sıralı devam eder. Son seviyeden sonra yükseltme yapılmaz.
+tiers:
+  '1':
+    # Çalışma aralığı (tick); 20 TPS altında 20 tick = 1 saniye. İlk başlangıç yük dağıtımı nedeniyle tam aralık ile yaklaşık iki aralık arasında bekler.
+    interval-ticks: 400
+    # Bu seviyenin maksimum canı/enerjisi. Can sıfırsa çalışmaz.
+    max-health: 300
+    # Ürünün iki kat çıkma ihtimali (yüzde, 0–100).
+    double-drop-chance: 5
+    # Bu seviyeden sonraki seviyeye yükseltme ücreti. Son seviyede 0 olması yeni seviye oluşturmaz.
+    upgrade-price: 20000
+  '2':
+    interval-ticks: 300
+    max-health: 450
+    double-drop-chance: 10
+    upgrade-price: 100000
+  '3':
+    interval-ticks: 200
+    max-health: 600
+    double-drop-chance: 15
+    upgrade-price: 0
+# Balıkçı ürünleri ve göreli ağırlıkları. Örnek: toplam 100 iken 60 değeri %60 olasılıktır. Yalnızca pozitif tam sayı kullanın.
+loot:
+  COD: 60
+  SALMON: 25
+  TROPICAL_FISH: 10
+  PUFFERFISH: 5
+
+# Bu minyon türünün dahili market ayarları.
+shop:
+  # Bu türün marketten satın alınmasını açar/kapatır.
+  enabled: true
+  # Marketten satın alınan minyonun başlangıç seviyesi; tiers içinde tanımlı olmalıdır.
+  level: 1
+  # Bu türün market satış fiyatı; Vault ekonomi sağlayıcısıyla tahsil edilir.
+  price: 10000
+

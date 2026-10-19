@@ -1,0 +1,41 @@
+# PyroMinions 1.0.0 | Yapımcı: pyroBuff
+# Bukkit plugin tanımı: bağımlılıklar, komutlar ve izinler. Genel ayarlar config.yml dosyasındadır.
+name: PyroMinions
+version: 1.0.0
+main: tr.pyro.minions.PyroMinions
+api-version: '1.21'
+description: Paper 1.21.x için özelleştirilebilir madenci, balıkçı ve besleyici minyonları.
+author: pyroBuff
+depend:
+  - Vault
+softdepend:
+  - SuperiorSkyblock2
+  - WorldGuard
+commands:
+  pyrominions:
+    aliases:
+      - pminions
+      - pm
+      - pyrominion
+    description: Minyonlarını görüntüle.
+    usage: /pyrominions help
+  pyrominionsadmin:
+    aliases:
+      - pma
+    description: PyroMinions yönetim komutları.
+    permission: pyrominions.admin
+permissions:
+  minion.max.3:
+    description: Kişisel minyon limitini 3 yapar; diğer sayısal izinlerde en yüksek değer geçerlidir.
+    default: false
+  pyrominions.use:
+    default: true
+  pyrominions.shop:
+    default: true
+  pyrominions.admin:
+    default: op
+    children:
+      pyrominions.admin.remove: true
+  pyrominions.admin.remove:
+    default: op
+

@@ -1,0 +1,40 @@
+# PyroMinions 1.0.0 | Yapımcı: pyroBuff
+# Tür ve seviye ayarları. Başarılı işler minyonun canını tüketir.
+# Balıkçı önündeki suyu kullanır. Madenci boşken can harcamaz.
+# Minyon türünün görünen adı.
+name: Besleyici Minyon
+# Seviyeler 1 ile başlayıp sıralı devam eder. Son seviyeden sonra yükseltme yapılmaz.
+tiers:
+  '1':
+    # Çalışma aralığı (tick); 20 TPS altında 20 tick = 1 saniye. İlk başlangıç yük dağıtımı nedeniyle tam aralık ile yaklaşık iki aralık arasında bekler.
+    interval-ticks: 200
+    # Bu seviyenin maksimum canı/enerjisi. Can sıfırsa çalışmaz.
+    max-health: 1000
+    # Besleyicinin 3 boyutlu mesafe sınırı (blok, 1–32). Aynı sahibin aynı dünyadaki/ada alanındaki, yüklü ve besleyici olmayan minyonları hedefler.
+    range: 4
+    # Bir turda HER hedefe aktarılabilecek en fazla can. Aktarılan can besleyiciden düşer; başarılı tur ayrıca 1 can harcar.
+    feed-amount: 10
+    # Bu seviyeden sonraki seviyeye yükseltme ücreti. Son seviyede 0 olması yeni seviye oluşturmaz.
+    upgrade-price: 20000
+  '2':
+    interval-ticks: 200
+    max-health: 2000
+    range: 8
+    feed-amount: 15
+    upgrade-price: 100000
+  '3':
+    interval-ticks: 200
+    max-health: 4000
+    range: 16
+    feed-amount: 20
+    upgrade-price: 0
+
+# Bu minyon türünün dahili market ayarları.
+shop:
+  # Bu türün marketten satın alınmasını açar/kapatır.
+  enabled: true
+  # Marketten satın alınan minyonun başlangıç seviyesi; tiers içinde tanımlı olmalıdır.
+  level: 1
+  # Bu türün market satış fiyatı; Vault ekonomi sağlayıcısıyla tahsil edilir.
+  price: 10000
+
