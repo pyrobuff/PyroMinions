@@ -1,0 +1,241 @@
+# PyroMinions 1.1.0 | Author: pyroBuff
+# English messages and menu text. Layout and materials remain in menus/*.yml.
+# Preserve placeholders and use & color codes. Select with language: en in config.yml.
+prefix: '&8[&6&lPyro&f&lMinions&8] &r'
+labels:
+  level-format: '%name% Level %level%'
+  hologram-format: '&e%name% &bLevel %level%'
+  upgrade-level-format: 'Level %level%'
+  no-chest: None
+  enabled: Enabled
+  disabled: Disabled
+  selected: '&aSelected'
+  select: '&7Click to select.'
+  max-level: Max level
+  feeder-level-range: '&7Level %level% feeding area: &b%diameter%x%diameter% blocks &8(%radius%-block radius)'
+  cancel-word: cancel
+  statistics-units:
+    miner: Blocks
+    fisher: Fish
+    feeder: Feedings
+  minion-types:
+    miner: Miner Minion
+    fisher: Fisher Minion
+    feeder: Feeder Minion
+  skin-names:
+    classic: Default
+    spiderman: Spider-Man
+    batman: Batman
+    superman: Superman
+    ironman: Iron Man
+    captainamerica: Captain America
+    hulk: Hulk
+    thor: Thor
+    flash: Flash
+    deadpool: Deadpool
+    wolverine: Wolverine
+    joker: Joker
+    harleyquinn: Harley Quinn
+    thanos: Thanos
+    venom: Venom
+    blackpanther: Black Panther
+    doctorstrange: Doctor Strange
+    loki: Loki
+item-lore:
+  - '&7Level: &b%level%'
+  - '&7Statistics: &f%statistics% %statistics_unit%'
+help:
+  player:
+    - ''
+    - '&8&m----------------------------------------'
+    - '&6&lPyroMinions &8» &fPlayer commands'
+    - '&e/pm &8— &7View your minions.'
+    - '&e/pm shop &8— &7Open the minion shop.'
+    - '&e/pm help &8— &7Show commands and usage.'
+    - '&8Aliases: &7/pminions, /pyrominion, /pyrominions'
+    - '&8Subcommands: &7list / minions / menu &8• &7shop / market &8• &7help / about'
+    - '&8&m----------------------------------------'
+  admin:
+    - ''
+    - '&6&lPyroMinions &8» &fAdmin commands'
+    - '&e/pma get &b<type> &7[level] [amount] &8— &fGive yourself minions.'
+    - '&e/pma give &b<type> <player> &7[level] [amount] &8— &fGive minions to an online player.'
+    - '&e/pma minions &7[player] &8— &fOpen a minion list.'
+    - '&e/pma info &b<uuid> &8— &fShow a minion record.'
+    - '&e/pma remove &7[uuid] &8— &cDelete a minion without returning its item.'
+    - '&e/pma reload &8— &fReload settings, messages and menus.'
+    - '&e/pma stats &8— &fShow saved and chunk-loaded minion counts.'
+    - '&8Types: &bminer&7, &bfisher&7, &bfeeder'
+    - '&b<...> &7required &8| &7[...] optional &8| &7Default level/amount: &f1'
+    - '&7Example: &e/pma give miner Player 2 3'
+    - '&c! &7Without a UUID, look at the minion from within &f5 blocks&7.'
+    - '&8Alias: &7/pyrominionsadmin &8| &7Help: &e/pma help'
+    - '&8&m----------------------------------------'
+messages:
+  transfer-failed: '&c&l! &r&7The minion transaction could not be saved. Your item and minion were preserved; contact an administrator.'
+  no-permission: '&c&l! &r&7You do not have &cpermission &7to do this.'
+  player-only: '&c&l! &r&7Use this command in game.'
+  offline: '&c&l! &r&7That player is not online.'
+  too-far: '&c&l! &r&7Move closer to manage the minion.'
+  unavailable: '&c&l! &r&7This minion is no longer available.'
+  not-owner: '&c&l! &r&7This minion is not yours or is too far away.'
+  owner-pickup-only: '&c&l! &r&7Only the &fowner &7can pick up this minion. Administrators can use &e/pma remove&7.'
+  pickup-not-full: '&e&l! &r&7Restore the minion to &afull health &7before picking it up.'
+  inventory-full: '&c&l! &r&7Make room in your inventory.'
+  picked-up: '&a&l+ &r&7The minion was added to your inventory.'
+  remove-first: '&c&l! &r&7Pick up the minion first.'
+  already-full: '&e&l! &r&7The minion already has full health.'
+  fed: '&a&l+ &r&7The minion was restored to full health.'
+  hand-fed: '&a&l+ &r&7Restored &a%amount% health &7with cooked beef. &8[&c%health%&8/&c%max_health%&8]'
+  max-level: '&e&l! &r&7The minion is already at max level.'
+  upgraded: '&a&l+ &r&7The minion reached &blevel %level%&7.'
+  insufficient-money: '&c&l! &r&7You do not have enough money. &8| &7Required: &6%price%'
+  shop-disabled: '&c&l! &r&7This minion is not for sale or the shop is closed.'
+  shop-purchased: '&a&l+ &r&7Purchased &f%type% &8(&blevel %level%&8)&7. &8| &7Price: &6%price%'
+  shop-refunded: '&c&l! &r&7The minion could not be added to your inventory; your payment was refunded.'
+  shop-refund-failed: '&c&l! &r&7The refund failed. Contact an administrator.'
+  shop-price-changed: '&e&l! &r&7The price changed and the shop was refreshed. Check the new price and click again.'
+  payment-failed: '&c&l! &r&7Payment failed: &f%reason%&7'
+  link-prompt: '&e&l» &r&7Right-click the chest to link it. &8| &7Time: &f30 seconds'
+  link-expired: '&c&l! &r&7Chest linking expired or you moved too far away.'
+  invalid-chest: '&c&l! &r&7Choose an accessible chest within range and on the same island. Both halves must be accessible.'
+  chest-too-far: '&c&l! &r&7The chest must be within &f%range%&7 blocks.'
+  linked: '&a&l+ &r&7Chest linked. Excess items will drop on the ground if it is full.'
+  unlinked: '&e&l! &r&7Chest unlinked.'
+  placement-permission: '&c&l! &r&7You do not have permission to place minions.'
+  place-on-top: '&c&l! &r&7Place the minion on top of a block.'
+  invalid-location: '&c&l! &r&7You cannot place a minion here.'
+  occupied: '&c&l! &r&7There is already a minion here.'
+  limit: '&c&l! &r&7You reached the minion limit.'
+  player-limit: '&e&l! &r&7You reached your personal minion limit. &8| &7Limit: &b%limit%'
+  island-limit: '&e&l! &r&7This island reached its total minion limit. &8| &7Island limit: &b%limit%'
+  protected: '&c&l! &r&7This area is protected.'
+  placed: '&a&l+ &r&f%type% &7placed.'
+  placement-failed: '&c&l! &r&7Could not place the minion: &f%reason%&7'
+  rename-prompt: '&e&l» &r&7Type the new name in chat. &8| &7Time: &f60 seconds &8| &7To stop: &ecancel'
+  rename-expired: '&c&l! &r&7Renaming expired or you moved too far away.'
+  rename-cancelled: '&e&l! &r&7Renaming cancelled.'
+  rename-invalid: '&c&l! &r&7Names must be 1–32 characters without color or control codes.'
+  renamed: '&a&l+ &r&7The minion was renamed.'
+  removed: '&c&l! &r&7The minion was &cpermanently deleted&7. &eNo item was returned.'
+  not-found: '&c&l! &r&7Minion not found.'
+  granted: '&a&l+ &r&7Gave &b%amount% &f%type% &7to &f%player%&7.'
+  reloaded: '&a&l+ &r&7Settings, messages and menus &areloaded&7. &eAutosave interval &7changes require a restart.'
+  reload-failed: '&c&l! &r&7New settings were rejected; previous settings remain active. &8| &c%reason%'
+  stats: '&6&lStatistics &8» &7Saved: &b%total% &8| &7Chunk-loaded: &a%loaded%'
+  info: |-
+    &6&lMinion information
+    &8» &7Type: &f%type% &8| &7Level: &b%level%
+    &8» &7Owner: &f%owner%
+    &8» &7Health: &c%health%&8/&c%max_health%
+    &8» &7UUID: &8%id%
+  error: '&c&l! &r&7%reason%'
+  usage-get: '&7Usage: &e/pma get &b<type> &7[level] [amount] &8| &7Example: &e/pma get miner 1 3'
+  usage-give: '&7Usage: &e/pma give &b<type> <player> &7[level] [amount] &8| &7Example: &e/pma give miner Player 1 3'
+  usage-remove: '&7Usage: &e/pma remove &7[uuid] &8| &7Enter a UUID or look at a minion. &cNo item is returned.'
+  usage-info: '&7Usage: &e/pma info &b<uuid> &8| &7Press &eTab &7for saved UUID suggestions.'
+  get-player-only: '&e/pma get &7must be used in game. In the console, use &e/pma give &b<type> <player> &7[level] [amount].'
+  invalid-type: '&7Valid types: &bminer&7, &bfisher&7, &bfeeder&7.'
+  invalid-uuid: '&7Enter a valid &bminion UUID&7. Example: &e/pma info &b<uuid>'
+  invalid-number: '&7Level and amount must be &fwhole numbers&7. Example: &e/pma get miner 1 3'
+  invalid-level: '&7That &blevel &7is not configured for this minion type.'
+  invalid-amount: '&7Amount must be a whole number between &b1 and 64&7.'
+  grant-inventory-full: '&7The player needs &emore inventory space&7. Make room and try again.'
+  spawn-failed: 'The minion entity could not be created in this area.'
+  invalid-minion-level: 'Invalid minion level.'
+  invalid-statistics: 'Invalid minion statistics.'
+  transfer-rejoin: '&cYour minion transaction was recorded. Rejoin because saving failed.'
+  recovery-failed: '&cYour minion data could not be recovered. Contact an administrator.'
+
+# Each menu lists text only. Slot, material and action changes belong in menus/*.yml.
+menus:
+  main:
+    title: '&6PyroMinions &8• &f%name%'
+    items:
+      overview:
+        name: '&e%display_name%'
+        lore: ['', '&7Health: &c%health%/%max_health%']
+      north:
+        name: '&eFace north'
+        lore: ['', '&7Faces north.']
+      south:
+        name: '&eFace south'
+        lore: ['', '&7Faces south.']
+      west:
+        name: '&eFace west'
+        lore: ['', '&7Faces west.']
+      east:
+        name: '&eFace east'
+        lore: ['', '&7Faces east.']
+      link:
+        name: '&eLink chest'
+        lore: ['', '&7Right-click a chest within &230 seconds.', '&7Maximum distance: &5%chest_range% blocks.', '&7Linked chest: &6%chest%']
+      unlink:
+        name: '&cUnlink chest'
+        lore: ['', '&7Items will drop on the ground.']
+      feed:
+        name: '&eFeed with money'
+        lore: ['', '&7Restores full health.', '&7Cost: &6%feed_price%', '&7Hand feeding: cooked beef.']
+      properties:
+        name: '&eProperties'
+        lore: ['', '&7Statistics: &6%statistics% %statistics_unit%', '&7Level: &b%level%', '&7Health: &c%health%/%max_health%', '&7Action interval: &2%interval% seconds', '&72x drop chance: &5%double_chance%%']
+      settings:
+        name: '&eMinion settings'
+        lore: ['', '&7Hologram • Skin • Name']
+      upgrade:
+        name: '&eUpgrade level'
+        lore: ['', '&7Next: &f%upgrade_status%', '&7Cost: &6%upgrade_price%']
+      pickup-info:
+        name: '&ePicking up a minion'
+        lore: ['', '&7The owner can left-click at full health.']
+      close:
+        name: '&cClose'
+        lore: []
+  settings:
+    title: '&6Minion settings'
+    items:
+      hologram:
+        name: '&eHologram: %hologram%'
+        lore: ['', '&7Click to toggle.']
+      skins:
+        name: '&eChoose skin'
+        lore: ['', '&7Current: &f%skin_name%', '&7Changes the head and clothing.']
+      rename:
+        name: '&eRename'
+        lore: ['', '&7Type the new name in chat.', '&7The level suffix is preserved.', '&7To stop: cancel']
+      back:
+        name: '&eBack'
+        lore: []
+  skins:
+    title: '&6Choose skin'
+    entries:
+      name: '&e%skin_name%'
+      lore: ['', '&7Head texture and clothing colors.', '%selected%']
+    items:
+      back:
+        name: '&eBack'
+        lore: []
+  minions:
+    title: '&6Minions'
+    entries:
+      name: '&e%display_name%'
+      lore: ['', '&7Health: &c%health%/%max_health%', '&7Location: &f%x%, %y%, %z%', '&7Click to manage when nearby.']
+    items:
+      close:
+        name: '&cClose'
+        lore: ['', '&7Total minions: %total%']
+  shop:
+    title: '&6Minion Shop'
+    items:
+      miner:
+        name: '&e%type%'
+        lore: ['', '&7Level: &b%level%', '&7Price: &6%price%', '', '&aClick to buy.', '&7The placing player becomes the owner.']
+      fisher:
+        name: '&e%type%'
+        lore: ['', '&7Level: &b%level%', '&7Price: &6%price%', '', '&aClick to buy.', '&7The placing player becomes the owner.']
+      feeder:
+        name: '&e%type%'
+        lore: ['', '&7Level: &b%level%', '&7Price: &6%price%', '', '&aClick to buy.', '&7The placing player becomes the owner.']
+      close:
+        name: '&cClose'
+        lore: []

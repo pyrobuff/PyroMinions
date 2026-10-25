@@ -55,7 +55,10 @@ final class Commands implements CommandExecutor, TabCompleter {
                     if (args.length > 2) throw new IllegalArgumentException("usage-remove");
                     MinionData d;
                     if (args.length == 2) d = plugin.minions.get(parseId(args[1]));
-                    else if (sender instanceof Player player && player.getTargetEntity(5) != null) d = plugin.fromEntity(player.getTargetEntity(5));
+                    else if (sender instanceof Player player) {
+                        var hit = player.getWorld().rayTraceEntities(player.getEyeLocation(), player.getEyeLocation().getDirection(), 5, entity -> entity instanceof org.bukkit.entity.LivingEntity && entity != player);
+                        d = hit == null ? null : plugin.fromEntity(hit.getHitEntity());
+                    }
                     else throw new IllegalArgumentException("usage-remove");
                     if (d == null) throw new IllegalArgumentException("not-found");
                     plugin.remove(d); plugin.saveNow(); plugin.message(sender, "removed");

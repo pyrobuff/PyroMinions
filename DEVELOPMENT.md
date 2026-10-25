@@ -7,10 +7,11 @@
 
 ## Derleme gereksinimleri
 
-JDK 21 kullanın ve Java derleme hedefini `--release 21` olarak ayarlayın. En eski desteklenen Paper 1.21 API'siyle derleyin.
+JDK 21 kullanın ve Java derleme hedefini `--release 21` olarak ayarlayın. Ortak kodu Spigot 1.21 API'si öncelikli olacak şekilde derleyin. Paper 1.21 API'si yalnızca `PaperEvents` sınıfındaki isteğe bağlı olaylar için gereklidir. 26.x sunucu testleri JDK 25 ile çalıştırılır; JAR'ın derleme hedefi Java 21 kalır.
 
 | API | Projenin kullandığı sürüm |
 |---|---|
+| Spigot | `1.21-R0.1-SNAPSHOT` — `spigot-api-1.21.jar`, sınıf yolunda Paper API'sinden önce. |
 | Paper | `1.21-R0.1-SNAPSHOT` — dosya adı `paper-api-1.21-R0.1-SNAPSHOT.jar` olmalıdır. |
 | VaultUnlocked | `2.20.3` |
 | SuperiorSkyblock2 | `2026.3` |
@@ -23,4 +24,4 @@ API'lerin geçişli bağımlılıkları da gerekir; örneğin Guava, Gson, exami
 
 `src/main/java/` kaynaklarını gerekli API'lerle derleyin. `src/main/resources/` içeriğini JAR köküne ekleyin; `plugin.yml` JAR kökünde bulunmalıdır. Üçüncü taraf API JAR'larını pluginin içine paketlemeyin.
 
-Çıktı adı `PyroMinions-1.0.0.jar` olmalıdır. Derleme ve test yardımcıları yerel geliştirme ortamında tutulur; GitHub deposunda paylaşılmaz.
+Çıktı adı `PyroMinions-1.1.0.jar` olmalıdır. Derleme ve test yardımcıları yerel geliştirme ortamında tutulur; GitHub deposunda paylaşılmaz.

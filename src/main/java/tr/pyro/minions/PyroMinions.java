@@ -4,9 +4,6 @@ import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import net.milkbowl.vault.economy.Economy;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.configuration.ConfigurationSection;
@@ -32,6 +29,8 @@ public final class PyroMinions extends JavaPlugin {
     TransferJournal transfers;
     private boolean loaded;
     private long tick;
+    long interactionTick;
+    boolean paperEvents;
     private int appearanceRevision;
     private volatile boolean autosavePending;
     private static final EulerAngle IDLE_ARM = new EulerAngle(Math.toRadians(-15), 0, 0);
@@ -59,7 +58,14 @@ public final class PyroMinions extends JavaPlugin {
             for (var d : minions.values()) d.skin = skins.key(d.skin);
             menus = new Menus(this);
             getServer().getPluginManager().registerEvents(menus, this);
-            getServer().getPluginManager().registerEvents(new MinionListener(this), this);
+            var listener = new MinionListener(this);
+            getServer().getPluginManager().registerEvents(listener, this);
+            try {
+                Class.forName("io.papermc.paper.event.player.PrePlayerAttackEntityEvent");
+                getServer().getPluginManager().registerEvents(new PaperEvents(listener), this);
+                paperEvents = true;
+            } catch (ClassNotFoundException ignored) { /* Spigot uses Bukkit events. */ }
+            getServer().getScheduler().runTaskTimer(this, () -> interactionTick++, 1, 1);
             var commands = new Commands(this);
             Objects.requireNonNull(getCommand("pyrominions")).setExecutor(commands);
             Objects.requireNonNull(getCommand("pyrominions")).setTabCompleter(commands);
@@ -144,9 +150,21 @@ public final class PyroMinions extends JavaPlugin {
         return ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', formatted));
     }
     String money(double amount) { return moneyText(economy.format(amount)); }
-    String typeName(MinionType type) { return data().getString("minions." + type.key() + ".name", type.title); }
+    String typeName(MinionType type) { return lang("labels.minion-types." + type.key(), data().getString("minions." + type.key() + ".name", type.title)); }
+    String localizedName(MinionType type, String name) {
+        String english = switch (type) { case MINER -> "Miner Minion"; case FISHER -> "Fisher Minion"; case FEEDER -> "Feeder Minion"; };
+        if (name == null || name.equals(type.title) || name.equals(english)
+            || name.equals(data().getString("minions." + type.key() + ".name"))) return typeName(type);
+        return name;
+    }
+    String skinName(String skin) { return lang("labels.skin-names." + skin, data().getString("skins." + skin + ".name", skin)); }
+    private String hologramFormat() {
+        String configured = data().getString("hologram-format", "&e%name% &b%level%. Seviye");
+        return configured.equals("&e%name% &b%level%. Seviye") || configured.equals("&e%name% &bLevel %level%")
+            ? lang("labels.hologram-format", configured) : configured;
+    }
     String statisticsUnit(MinionType type) { return lang("labels.statistics-units." + type.key(), switch (type) { case MINER -> "Blok"; case FISHER -> "Balık"; case FEEDER -> "Besleme"; }); }
-    static Component text(String text) { return LegacyComponentSerializer.legacySection().deserialize(ChatColor.translateAlternateColorCodes('&', text)).decoration(TextDecoration.ITALIC, false); }
+    static String text(String text) { return ChatColor.translateAlternateColorCodes('&', text); }
     void message(org.bukkit.command.CommandSender player, String key, Object... replacements) {
         Map<String, String> values = new HashMap<>();
         for (int i = 0; i + 1 < replacements.length; i += 2) values.put(replacements[i].toString(), String.valueOf(replacements[i + 1]));
@@ -169,8 +187,8 @@ public final class PyroMinions extends JavaPlugin {
     ItemStack token(MinionType type, int level, String skin, String customName, long statistics, boolean hologram) {
         if (statistics < 0) throw new IllegalArgumentException("Negatif minyon istatistiği");
         var item = skins.head(skin, type);
-        var meta = item.getItemMeta(); meta.displayName(text("&e" + formatName(customName == null ? typeName(type) : customName, level)));
-        meta.lore(files.lang.getStringList("item-lore").stream().map(s -> text(PluginFiles.format(s, Map.of("level", "" + level, "statistics", "" + statistics, "statistics_unit", statisticsUnit(type))))).toList());
+        var meta = item.getItemMeta(); meta.setDisplayName(text("&e" + formatName(localizedName(type, customName), level)));
+        meta.setLore(files.lang.getStringList("item-lore").stream().map(s -> text(PluginFiles.format(s, Map.of("level", "" + level, "statistics", "" + statistics, "statistics_unit", statisticsUnit(type))))).toList());
         var pdc = meta.getPersistentDataContainer();
         pdc.set(itemKey, PersistentDataType.STRING, type.key()); pdc.set(levelKey, PersistentDataType.INTEGER, level);
         pdc.set(skinKey, PersistentDataType.STRING, skin);
@@ -216,7 +234,7 @@ public final class PyroMinions extends JavaPlugin {
     void update(MinionData d) {
         if (d.stand == null || !d.stand.isValid()) return;
         d.stand.setRotation(d.yaw(), 0);
-        d.stand.customName(text(PluginFiles.format(data().getString("hologram-format", "&e%name% &b%level%. Seviye"), Map.of("name", d.name, "level", "" + d.level))));
+        d.stand.setCustomName(text(PluginFiles.format(hologramFormat(), Map.of("name", localizedName(d.type, d.name), "level", "" + d.level))));
         d.stand.setCustomNameVisible(d.hologram);
         UUID entity = d.stand.getUniqueId();
         if (entity.equals(d.appearanceEntity) && Objects.equals(d.skin, d.appearanceSkin)
@@ -234,7 +252,7 @@ public final class PyroMinions extends JavaPlugin {
         var item = new ItemStack(type); var meta = (LeatherArmorMeta) item.getItemMeta(); meta.setColor(Color.fromRGB(rgb)); item.setItemMeta(meta); return item;
     }
     private String formatName(String name, int level) { return PluginFiles.format(lang("labels.level-format", "%name% %level%. Seviye"), Map.of("name", name, "level", "" + level)); }
-    String displayName(MinionData d) { return formatName(d.name, d.level); }
+    String displayName(MinionData d) { return formatName(localizedName(d.type, d.name), d.level); }
     void remove(MinionData d) { minions.remove(d.id); if (d.stand != null && d.stand.isValid()) d.stand.remove(); }
     boolean saveNow() {
         if (!loaded) return false;
@@ -378,7 +396,7 @@ public final class PyroMinions extends JavaPlugin {
             if (!safeChestHalf(d, other) || !(other.getBlock().getState() instanceof Chest)) return null;
             var inventory = chest.getInventory();
             if (!(inventory.getHolder() instanceof DoubleChest doubleChest) || inventory.getSize() != 54) return null;
-            if (!(doubleChest.getLeftSide(false) instanceof Chest left) || !(doubleChest.getRightSide(false) instanceof Chest right)
+            if (!(doubleChest.getLeftSide() instanceof Chest left) || !(doubleChest.getRightSide() instanceof Chest right)
                 || !safeChestHalf(d, left.getLocation()) || !safeChestHalf(d, right.getLocation())) return null;
             return inventory;
         }
@@ -394,7 +412,7 @@ public final class PyroMinions extends JavaPlugin {
         if (item.getType() != Material.COOKED_BEEF) return;
         if (d.hunger >= maxHealth(d)) { message(player, "already-full"); return; }
         int amount = Math.min(data().getInt("hand-feed-health", 50), maxHealth(d) - d.hunger);
-        var remainder = item.clone(); remainder.subtract(1); player.getInventory().setItemInMainHand(remainder);
+        var remainder = item.clone(); remainder.setAmount(remainder.getAmount() - 1); player.getInventory().setItemInMainHand(remainder);
         d.hunger += amount; update(d); saveNow(); message(player, "hand-fed", "amount", amount, "health", d.hunger, "max_health", maxHealth(d));
     }
     boolean charge(Player player, double cost) {

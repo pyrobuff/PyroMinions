@@ -18,6 +18,10 @@ final class PluginFiles {
     static PluginFiles load(PyroMinions plugin) throws Exception {
         Path root = plugin.getDataFolder().toPath();
         var raw = read(root.resolve("config.yml"));
+        String selectedLanguage = raw.getString("language", "tr").strip().toLowerCase(Locale.ROOT);
+        if (!Set.of("tr", "en").contains(selectedLanguage)) throw new IllegalArgumentException("language must be tr or en.");
+        boolean upgradeLanguage = !raw.contains("language");
+        raw.set("language", selectedLanguage);
         boolean upgradeStatistics = raw.getInt("config-version", 1) < 4;
         if (raw.getInt("config-version", 1) < 3 || raw.contains("minions") || raw.contains("skins")) {
             Path backup = root.resolve("config-before-split.yml.bak");
@@ -92,6 +96,12 @@ final class PluginFiles {
             if (help.stream().noneMatch(s -> s.contains("shop"))) { help.add("/pminions shop — Minyon marketi"); lang.set("help.player", help); }
             lang.options().copyDefaults(true); lang.save(root.resolve("lang.yml").toFile());
         }
+        ensure(plugin, "lang_en.yml");
+        if (selectedLanguage.equals("en")) {
+            lang = read(root.resolve("lang_en.yml"));
+            lang.setDefaults(resource(plugin, "lang_en.yml"));
+            lang.options().copyDefaults(true);
+        }
         Map<String, YamlConfiguration> menus = new LinkedHashMap<>();
         for (String name : List.of("main", "settings", "skins", "minions", "shop")) {
             String file = "menus/" + name + ".yml"; ensure(plugin, file);
@@ -107,16 +117,28 @@ final class PluginFiles {
                     menu.set("items.properties.lore", lore); menu.save(root.resolve(file).toFile());
                 }
             }
+            applyMenuLanguage(menu, lang, name);
             validateMenu(name, menu); menus.put(name, menu);
         }
         if (raw.getInt("hand-feed-health") < 1) throw new IllegalArgumentException("hand-feed-health en az 1 olmalı");
         if (!raw.getString("hologram-format", "").contains("%level%")) throw new IllegalArgumentException("hologram-format içinde %level% zorunludur");
         if (menus.get("skins").getIntegerList("entries.slots").size() < Objects.requireNonNull(raw.getConfigurationSection("skins")).getKeys(false).size()) throw new IllegalArgumentException("Skin menüsünde tüm skinler için yeterli slot yok");
-        if (upgradeStatistics || upgradeLimits) Files.writeString(root.resolve("config.yml"), generalSettings, StandardCharsets.UTF_8);
+        if (upgradeStatistics || upgradeLimits || upgradeLanguage) Files.writeString(root.resolve("config.yml"), generalSettings, StandardCharsets.UTF_8);
         return new PluginFiles(raw, lang, menus);
     }
     private static void backup(Path file, String name) throws IOException {
         Path destination = file.resolveSibling(name); if (!Files.exists(destination)) Files.copy(file, destination);
+    }
+    static void applyMenuLanguage(YamlConfiguration menu, YamlConfiguration language, String name) {
+        var section = language.getConfigurationSection("menus." + name);
+        if (section == null) return;
+        for (String key : section.getKeys(true)) {
+            // Locales change text only; layout, materials and actions remain in menus/*.yml.
+            if (section.isConfigurationSection(key)) continue;
+            if (key.equals("title")) menu.set(key, section.get(key));
+            else if ((key.endsWith(".name") || key.endsWith(".lore"))
+                && menu.isConfigurationSection(key.substring(0, key.lastIndexOf('.')))) menu.set(key, section.get(key));
+        }
     }
     private static void ensure(PyroMinions plugin, String path) { if (!Files.exists(plugin.getDataFolder().toPath().resolve(path))) plugin.saveResource(path, false); }
     static YamlConfiguration read(Path path) throws Exception { var yaml = new YamlConfiguration(); yaml.load(path.toFile()); return yaml; }
@@ -147,7 +169,10 @@ final class PluginFiles {
         if (material == null || !material.isItem() || material.isAir()) throw new IllegalArgumentException("Geçersiz menü malzemesi: " + text);
         return material;
     }
-    String language(String key, String fallback) { return lang.getString(key, fallback); }
+    String language(String key, String fallback) {
+        String value = lang.getString(key);
+        return value == null ? fallback : value;
+    }
     static String format(String text, Map<String, String> values) {
         // Substitute tokens once so a player's name cannot inject another placeholder or a color code.
         var pattern = java.util.regex.Pattern.compile("%([a-z_]+)%"); var matcher = pattern.matcher(text); StringBuilder out = new StringBuilder();

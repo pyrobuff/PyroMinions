@@ -1,10 +1,10 @@
-# PyroMinions 1.0.0 | Yapımcı: pyroBuff
+# PyroMinions 1.1.0 | Yapımcı: pyroBuff
 # Bukkit plugin tanımı: bağımlılıklar, komutlar ve izinler. Genel ayarlar config.yml dosyasındadır.
 name: PyroMinions
-version: 1.0.0
+version: 1.1.0
 main: tr.pyro.minions.PyroMinions
 api-version: '1.21'
-description: Paper 1.21.x için özelleştirilebilir madenci, balıkçı ve besleyici minyonları.
+description: Paper, Purpur ve Spigot için özelleştirilebilir madenci, balıkçı ve besleyici minyonları.
 author: pyroBuff
 depend:
   - Vault

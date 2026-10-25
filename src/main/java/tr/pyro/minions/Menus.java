@@ -32,7 +32,7 @@ final class Menus implements Listener {
     private Map<String, String> values(MinionData d) {
         Map<String, String> v = new HashMap<>();
         if (d == null) return v;
-        v.put("name", d.name); v.put("display_name", plugin.displayName(d)); v.put("type", plugin.typeName(d.type));
+        v.put("name", plugin.localizedName(d.type, d.name)); v.put("display_name", plugin.displayName(d)); v.put("type", plugin.typeName(d.type));
         v.put("level", "" + d.level); v.put("health", "" + d.hunger); v.put("max_health", "" + plugin.maxHealth(d));
         v.put("statistics", "" + d.statistics); v.put("statistics_unit", plugin.statisticsUnit(d.type));
         v.put("interval", number(plugin.interval(d) / 20.0)); v.put("double_chance", number(plugin.tier(d).getDouble("double-drop-chance")));
@@ -40,9 +40,11 @@ final class Menus implements Listener {
         v.put("chest", d.chestWorld == null ? plugin.lang("labels.no-chest", "Yok") : d.chestX + ", " + d.chestY + ", " + d.chestZ);
         v.put("feed_price", plugin.money(Rules.feedingPrice(plugin.maxHealth(d) - d.hunger, plugin.data().getDouble("feed-price-per-point", .5))));
         v.put("upgrade_price", plugin.money(plugin.tier(d).getDouble("upgrade-price")));
-        v.put("upgrade_status", plugin.hasTier(d.type, d.level + 1) ? (d.level + 1) + ". Seviye" : plugin.lang("labels.max-level", "Son seviye"));
+        v.put("upgrade_status", plugin.hasTier(d.type, d.level + 1)
+            ? PluginFiles.format(plugin.lang("labels.upgrade-level-format", "%level%. Seviye"), Map.of("level", "" + (d.level + 1)))
+            : plugin.lang("labels.max-level", "Son seviye"));
         v.put("hologram", plugin.lang(d.hologram ? "labels.enabled" : "labels.disabled", d.hologram ? "Açık" : "Kapalı"));
-        v.put("skin_name", plugin.data().getString("skins." + plugin.skins.key(d.skin) + ".name", d.skin));
+        v.put("skin_name", plugin.skinName(plugin.skins.key(d.skin)));
         v.put("x", "" + d.x); v.put("y", "" + d.y); v.put("z", "" + d.z);
         return v;
     }
@@ -50,8 +52,8 @@ final class Menus implements Listener {
     private ItemStack item(ConfigurationSection section, MinionData d, String skin, Map<String, String> values) {
         String material = section.getString("material", "STONE");
         ItemStack stack = material.equals("MINION_HEAD") ? plugin.skins.head(skin, d == null ? MinionType.parse(values.getOrDefault("type_key", "miner")) : d.type) : new ItemStack(PluginFiles.material(material));
-        var meta = stack.getItemMeta(); meta.displayName(PyroMinions.text(PluginFiles.format(section.getString("name", " "), values)));
-        meta.lore(section.getStringList("lore").stream().map(s -> PyroMinions.text(PluginFiles.format(s, values))).toList());
+        var meta = stack.getItemMeta(); meta.setDisplayName(PyroMinions.text(PluginFiles.format(section.getString("name", " "), values)));
+        meta.setLore(section.getStringList("lore").stream().map(s -> PyroMinions.text(PluginFiles.format(s, values))).toList());
         stack.setItemMeta(meta); return stack;
     }
     private Holder create(Page page, MinionData d, Map<String, String> values) {
@@ -59,7 +61,7 @@ final class Menus implements Listener {
         var h = new Holder(page, d == null ? null : d.id);
         h.inventory = Bukkit.createInventory(h, config.getInt("size"), PyroMinions.text(PluginFiles.format(config.getString("title", "PyroMinions"), values)));
         var filler = new ItemStack(PluginFiles.material(config.getString("filler", "BLACK_STAINED_GLASS_PANE")));
-        var meta = filler.getItemMeta(); meta.displayName(PyroMinions.text(" ")); filler.setItemMeta(meta);
+        var meta = filler.getItemMeta(); meta.setDisplayName(PyroMinions.text(" ")); filler.setItemMeta(meta);
         for (int i = 0; i < h.inventory.getSize(); i++) h.inventory.setItem(i, filler);
         var items = config.getConfigurationSection("items");
         if (items != null) for (String key : items.getKeys(false)) {
@@ -77,7 +79,7 @@ final class Menus implements Listener {
             var stack = item(section, d, d == null ? "classic" : d.skin, itemValues);
             if (d != null && d.type == MinionType.FEEDER && action.equals("properties")) {
                 var itemMeta = stack.getItemMeta();
-                var lore = new ArrayList<>(Objects.requireNonNullElse(itemMeta.lore(), List.of()));
+                var lore = new ArrayList<>(Objects.requireNonNullElse(itemMeta.getLore(), List.of()));
                 lore.add(PyroMinions.text(" "));
                 var tiers = Objects.requireNonNull(plugin.data().getConfigurationSection("minions.feeder.tiers"));
                 for (String level : tiers.getKeys(false).stream().sorted(Comparator.comparingInt(Integer::parseInt)).toList()) {
@@ -85,7 +87,7 @@ final class Menus implements Listener {
                     var rangeValues = Map.of("level", level, "diameter", "" + (radius * 2 + 1), "radius", "" + radius);
                     lore.add(PyroMinions.text(PluginFiles.format(plugin.lang("labels.feeder-level-range", "&7%level%. Seviye: &b%diameter%x%diameter% blok &8(%radius% blok yarıçap)"), rangeValues)));
                 }
-                itemMeta.lore(lore); stack.setItemMeta(itemMeta);
+                itemMeta.setLore(lore); stack.setItemMeta(itemMeta);
             }
             h.inventory.setItem(slot, stack);
             h.actions.put(slot, action);
@@ -103,7 +105,7 @@ final class Menus implements Listener {
         var base = values(d); var h = create(Page.SKINS, d, base); var config = plugin.files.menus.get("skins");
         var entries = Objects.requireNonNull(config.getConfigurationSection("entries")); var slots = entries.getIntegerList("slots"); int index = 0;
         for (String key : Objects.requireNonNull(plugin.data().getConfigurationSection("skins")).getKeys(false)) {
-            var v = new HashMap<>(base); v.put("skin_name", plugin.data().getString("skins." + key + ".name", key));
+            var v = new HashMap<>(base); v.put("skin_name", plugin.skinName(key));
             v.put("selected", plugin.lang(key.equals(plugin.skins.key(d.skin)) ? "labels.selected" : "labels.select", "Seç"));
             int slot = slots.get(index++); h.inventory.setItem(slot, item(entries, d, key, v)); h.actions.put(slot, "skin:" + key);
         }

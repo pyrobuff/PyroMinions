@@ -1,4 +1,4 @@
-# PyroMinions 1.0.0 — Minyon limitleri
+# PyroMinions 1.1.0 — Minyon limitleri
 
 `config.yml` içinde iki bağımsız sınır bulunur:
 
@@ -25,7 +25,7 @@ Her iki ayarda da `0` yeni yerleştirmeyi engeller. Negatif ve tam sayı olmayan
 
 Eski config dosyasına `max-per-island: 20` otomatik eklenir ve `config-before-limits.yml.bak` yedeği alınır. Kişisel mevcut config ayarı korunur. Eski dil dosyalarında yeni limit mesajları JAR varsayılanlarından okunur; özelleştirmek için `lang.yml` içindeki `messages.player-limit` ve `messages.island-limit` alanlarını kullanın (`%limit%` desteklenir).
 
-Plugin sürümü ve JAR adı 1.0.0 olarak korunur.
+Plugin sürümü ve JAR adı 1.1.0 olarak korunur.
 
 
 [README](README.md)

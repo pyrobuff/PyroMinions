@@ -1,4 +1,4 @@
-# PyroMinions 1.0.0 | Yapımcı: pyroBuff
+# PyroMinions 1.1.0 | Yapımcı: pyroBuff
 # Menü görünümü. Kutular 0 ile başlar; yalnızca bu menüde desteklenen yer tutucuları kullanın.
 # Menünün başlığı; & renk kodları ve bu menüye uygun %yer_tutucular% kullanılabilir.
 title: '&6Minyon ayarları'

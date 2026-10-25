@@ -2,9 +2,6 @@ package tr.pyro.minions;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import io.papermc.paper.event.player.AsyncChatEvent;
-import io.papermc.paper.event.player.PrePlayerAttackEntityEvent;
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.entity.*;
@@ -21,7 +18,7 @@ final class MinionListener implements Listener {
     record Pending(UUID minion, long expires) {}
     final Map<UUID, Pending> links = new HashMap<>();
     final Map<UUID, Pending> renames = new ConcurrentHashMap<>();
-    record Interaction(UUID minion, int tick) {}
+    record Interaction(UUID minion, long tick) {}
     final Map<UUID, Interaction> interactions = new HashMap<>();
     MinionListener(PyroMinions plugin) { this.plugin = plugin; plugin.menus.listener = this; }
 
@@ -67,11 +64,11 @@ final class MinionListener implements Listener {
         if (limitReached(player, island)) return;
         try {
             var minionType = MinionType.parse(type); int level = tags.getOrDefault(plugin.levelKey, PersistentDataType.INTEGER, 1);
-            if (!plugin.hasTier(minionType, level)) throw new IllegalArgumentException("Geçersiz minyon seviyesi.");
+            if (!plugin.hasTier(minionType, level)) throw new IllegalArgumentException("invalid-minion-level");
             var d = new MinionData(UUID.randomUUID(), player.getUniqueId(), minionType, location);
             d.level = level; d.hunger = plugin.maxHealth(d);
             d.statistics = tags.getOrDefault(plugin.statisticsKey, PersistentDataType.LONG, 0L);
-            if (d.statistics < 0) throw new IllegalArgumentException("Geçersiz minyon istatistiği.");
+            if (d.statistics < 0) throw new IllegalArgumentException("invalid-statistics");
             d.skin = tags.getOrDefault(plugin.skinKey, PersistentDataType.STRING, "classic");
             d.name = tags.getOrDefault(plugin.nameKey, PersistentDataType.STRING, plugin.typeName(d.type));
             d.skin = plugin.skins.key(d.skin);
@@ -81,13 +78,14 @@ final class MinionListener implements Listener {
             plugin.minions.put(d.id, d);
             try {
                 plugin.spawn(d);
-                if (d.stand == null || !d.stand.isValid()) throw new IllegalArgumentException("Bu bölgede minyon görüntüsü oluşturulamadı.");
+                if (d.stand == null || !d.stand.isValid()) throw new IllegalArgumentException("spawn-failed");
             } catch (RuntimeException failure) { plugin.remove(d); throw failure; }
             // Consume in creative too: one token always represents one minion.
             if (!plugin.transfers.place(player, d, item)) { plugin.remove(d); return; }
             plugin.message(player, "placed", "type", plugin.typeName(d.type));
-        } catch (IllegalArgumentException e) { plugin.message(player, "placement-failed", "reason", e.getMessage()); }
+        } catch (IllegalArgumentException e) { plugin.message(player, "placement-failed", "reason", plugin.lang("messages." + e.getMessage(), e.getMessage())); }
     }
+    boolean isMinion(Entity entity) { return plugin.tagged(entity); }
     private boolean limitReached(Player player, UUID island) {
         int personal = PlacementLimits.playerLimit(player, plugin.data().getInt("max-per-player", 20));
         if (PlacementLimits.playerCount(plugin.minions.values(), player.getUniqueId()) >= personal) {
@@ -112,7 +110,7 @@ final class MinionListener implements Listener {
         if (event.getHand() != EquipmentSlot.HAND) return;
         var d = plugin.fromEntity(event.getRightClicked());
         if (!plugin.canManage(event.getPlayer(), d)) { plugin.message(event.getPlayer(), "not-owner"); return; }
-        var player = event.getPlayer(); int tick = Bukkit.getCurrentTick();
+        var player = event.getPlayer(); long tick = plugin.interactionTick;
         var last = interactions.put(player.getUniqueId(), new Interaction(d.id, tick));
         if (last != null && last.minion().equals(d.id) && last.tick() == tick) return;
         if (player.getInventory().getItemInMainHand().getType() == Material.COOKED_BEEF) { plugin.handFeed(player, d); return; }
@@ -130,12 +128,8 @@ final class MinionListener implements Listener {
         if (!plugin.tagged(event.getEntity())) return;
         event.setCancelled(true);
     }
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void attack(PrePlayerAttackEntityEvent event) {
-        if (!plugin.tagged(event.getAttacked())) return;
-        event.setCancelled(true);
-        var player = event.getPlayer();
-        var d = plugin.fromEntity(event.getAttacked());
+    void pickup(Player player, Entity attacked) {
+        var d = plugin.fromEntity(attacked);
         if (d == null || !d.owner.equals(player.getUniqueId()) || !plugin.canManage(player, d)) { plugin.message(player, "owner-pickup-only"); return; }
         if (d.hunger != plugin.maxHealth(d)) { plugin.message(player, "pickup-not-full"); return; }
         var item = plugin.token(d.type, d.level, d.skin, d.name, d.statistics, d.hologram);
@@ -161,12 +155,17 @@ final class MinionListener implements Listener {
     @EventHandler
     public void chunk(ChunkLoadEvent event) { plugin.reconcile(event.getChunk()); }
     @EventHandler(priority = EventPriority.LOWEST)
-    public void rename(AsyncChatEvent event) {
-        Pending pending = renames.remove(event.getPlayer().getUniqueId()); if (pending == null) return;
+    public void rename(AsyncPlayerChatEvent event) {
+        if (plugin.paperEvents) return;
+        if (!renames.containsKey(event.getPlayer().getUniqueId())) return;
         event.setCancelled(true);
-        String text = PlainTextComponentSerializer.plainText().serialize(event.message()).strip();
+        rename(event.getPlayer(), event.getMessage());
+    }
+    void rename(Player sender, String input) {
+        Pending pending = renames.remove(sender.getUniqueId()); if (pending == null) return;
+        String text = input.strip();
         Bukkit.getScheduler().runTask(plugin, () -> {
-            var player = event.getPlayer(); var d = plugin.minions.get(pending.minion());
+            var player = sender; var d = plugin.minions.get(pending.minion());
             if (pending.expires() < System.currentTimeMillis() || !plugin.canManage(player, d)) { plugin.message(player, "rename-expired"); return; }
             if (text.equalsIgnoreCase(plugin.lang("labels.cancel-word", "iptal"))) { plugin.message(player, "rename-cancelled"); return; }
             if (text.isBlank() || text.codePointCount(0, text.length()) > 32 || text.chars().anyMatch(c -> Character.isISOControl(c) || c == '§' || c == '&')) {
@@ -174,6 +173,19 @@ final class MinionListener implements Listener {
             }
             d.name = text; plugin.update(d); plugin.saveNow(); plugin.message(player, "renamed");
         });
+    }
+    // Invulnerable armor stands need the swing event on Spigot, where no pre-attack event exists.
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void swing(PlayerAnimationEvent event) {
+        if (plugin.paperEvents || event.getAnimationType() != PlayerAnimationType.ARM_SWING) return;
+        var player = event.getPlayer();
+        double reach = player.getGameMode() == GameMode.CREATIVE ? 5 : 3;
+        var eye = player.getEyeLocation(); var direction = eye.getDirection();
+        var hit = player.getWorld().rayTraceEntities(eye, direction, reach, entity -> entity instanceof org.bukkit.entity.LivingEntity && entity != player);
+        if (hit == null || hit.getHitEntity() == null || !plugin.tagged(hit.getHitEntity())) return;
+        var wall = player.getWorld().rayTraceBlocks(eye, direction, reach, FluidCollisionMode.NEVER, true);
+        if (wall != null && wall.getHitPosition().distanceSquared(eye.toVector()) < hit.getHitPosition().distanceSquared(eye.toVector())) return;
+        pickup(player, hit.getHitEntity());
     }
     @EventHandler(priority = EventPriority.LOWEST)
     public void join(PlayerJoinEvent event) { plugin.transfers.recoverPlayer(event.getPlayer()); }

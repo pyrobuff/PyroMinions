@@ -1,10 +1,10 @@
 # PyroMinions
 
-**Paper 1.21.x için özelleştirilebilir madenci, balıkçı ve besleyici minyonları.**
+**Paper, Purpur ve Spigot için özelleştirilebilir madenci, balıkçı ve besleyici minyonları.**
 
 PyroMinions; üretim, besleme ve minyon yönetimini oyun içi menülerle sunar. SuperiorSkyblock2 entegrasyonu, kişi ve ada başına limitler, permission ile belirlenen minyon hakları ve yapılandırılabilir görünüşler içerir.
 
-**Sürüm:** `1.0.0` · **Java:** `21` · **Yapımcı:** `pyroBuff`
+**Sürüm:** `1.1.0` · **Java:** `21` (1.21.x) / `25` (26.x) · **Yapımcı:** `pyroBuff`
 
 [Kurulum](#kurulum) · [Komutlar](#komutlar) · [Limitler](LIMITS.md) · [Yapılandırma](#yapılandırma) · [Uyumluluk](COMPATIBILITY.md)
 
@@ -17,6 +17,7 @@ PyroMinions; üretim, besleme ve minyon yönetimini oyun içi menülerle sunar. 
 - **İki ayrı limit:** oyuncunun kişisel hakkı ve ada üyelerinin ortak toplam sınırı.
 - **18 hazır görünüş:** dokulu kafalar ve ayrı ayarlanabilen deri kıyafet renkleri; kaynak paketi gerekmez.
 - **Kalıcı istatistikler:** kırılan blok, üretilen balık ve başarılı besleme sayaçları.
+- **İki dil seçeneği:** Türkçe ve İngilizce mesajlar, menüler ve komut yardımı. [Dil seçimi](LANGUAGES.md).
 - **Özelleştirilebilir YAML dosyaları:** açıklamalı ayarlar, renkli mesajlar ve düzenlenebilir menüler.
 - **Geliştirici API:** balıkçılık ganimetini düzenlemek için özel olay desteği.
 
@@ -25,8 +26,8 @@ PyroMinions; üretim, besleme ve minyon yönetimini oyun içi menülerle sunar. 
 
 | Bileşen | Kullanım |
 |---|---|
-| **Paper 1.21–1.21.11** | Hedef sunucu ailesi; sürüm ayrıntıları [uyumluluk belgesinde](COMPATIBILITY.md). |
-| **Java 21** | Çalıştırma ve derleme hedefi. |
+| **Paper / Purpur / Spigot** | Minecraft `1.21.x`, `26.1.x` ve `26.2.x`; test edilen sürümler [uyumluluk belgesinde](COMPATIBILITY.md). |
+| **Java** | `1.21.x` sunucularında Java **21**; `26.1.x` ve `26.2.x` sunucularında Java **25**. |
 | **Vault veya VaultUnlocked** | Zorunlu ekonomi köprüsü. |
 | **Vault uyumlu ekonomi sağlayıcısı** | Market, yükseltme ve parayla besleme; örneğin EssentialsX. |
 | **SuperiorSkyblock2** | Varsayılan `require-island: true` ayarında zorunlu. |
@@ -35,13 +36,17 @@ SuperiorSkyblock2 olmadan kullanmak için `config.yml` içindeki `require-island
 
 ## Kurulum
 
-1. GitHub **Releases** bölümünden `PyroMinions-1.0.0.jar` dosyasını indirin.
+1. GitHub **Releases** bölümünden `PyroMinions-1.1.0.jar` dosyasını indirin.
 2. Sunucuyu durdurun ve gerekli bağımlılıkları kurun.
 3. JAR dosyasını sunucunun `plugins/` klasörüne koyun.
 4. Sunucuyu başlatın; `plugins/PyroMinions/` altında ayarlar oluşur.
 5. Ayarları düzenleyin ve `/pma reload` ile yenileyin.
 
 Güncellerken sunucuyu durdurup mevcut JAR'ı değiştirin; aynı pluginin iki JAR'ını birlikte bırakmayın. Plugin güncellemelerinde tam yeniden başlatma kullanın. YAML değişiklikleri `/pma reload` ile uygulanır; otomatik kayıt aralığı değişikliği yeniden başlatma gerektirir.
+
+## Dil seçimi
+
+`config.yml` içindeki `language: tr` Türkçe, `language: en` İngilizce seçer. Değişikliği `/pma reload` ile uygulayın. Ayrıntılar: [LANGUAGES.md](LANGUAGES.md).
 
 ## Nasıl kullanılır?
 
@@ -136,7 +141,8 @@ Dosyalar sunucuda `plugins/PyroMinions/`, kaynak kodda `src/main/resources/` alt
 | `minions/fisher.yml` | Balıkçı seviyeleri, ganimet ağırlıkları ve market ayarları. |
 | `minions/feeder.yml` | Besleyici seviyeleri, menzil, can aktarımı ve market ayarları. |
 | `skins.yml` | Kafa dokuları, görünüş adları ve kıyafet renkleri. |
-| `lang.yml` | Renkli mesajlar, yardım, önek ve ortak etiketler. |
+| `lang.yml` | Türkçe mesajlar, yardım, önek ve ortak etiketler. |
+| `lang_en.yml` | İngilizce mesajlar, yardım, adlar ve menü metinleri. |
 | `menus/*.yml` | Menü başlıkları, boyutlar, slotlar ve eşya açıklamaları. |
 
 Metinlerde `&` renk kodları desteklenir. Menü slotları `0` ile başlar; boyutlar `9–54` arasında, 9'un katı olmalıdır. Mevcut `%yer_tutucular%` değerlerini koruyun. Skin kafa dokularının kaynakları [SKIN-SOURCES.md](SKIN-SOURCES.md) dosyasındadır.
@@ -145,6 +151,6 @@ Metinlerde `&` renk kodları desteklenir. Menü slotları `0` ile başlar; boyut
 
 ## Kaynak kod
 
-Plugin kaynakları ve varsayılan YAML dosyaları `src/main/` altındadır. Java 21 hedefi ve en eski Paper 1.21 API'si kullanılır.
+Plugin kaynakları ve varsayılan YAML dosyaları `src/main/` altındadır. Java 21 derleme hedefi ve Spigot 1.21 ortak API'si kullanılır; Paper olayları ayrı bir uyumluluk sınıfındadır.
 
 API bağımlılıkları ve paketleme bilgileri: [DEVELOPMENT.md](DEVELOPMENT.md). Sunucu sürümü desteği: [COMPATIBILITY.md](COMPATIBILITY.md). Hazır JAR, GitHub Releases bölümünden edinilebilir.

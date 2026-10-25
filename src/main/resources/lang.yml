@@ -1,4 +1,4 @@
-# PyroMinions 1.0.0 | Yapımcı: pyroBuff
+# PyroMinions 1.1.0 | Yapımcı: pyroBuff
 # Oyuncu mesajları. & renk kodları desteklenir; YAML anahtarlarını ve yer tutucuları koruyun.
 # Oyuncuya gönderilen mesajların başına eklenen yazı.
 prefix: '&8[&6&lPyro&f&lMinions&8] &r'
@@ -126,3 +126,9 @@ messages:
   invalid-amount: '&7Adet &b1–64 &7arasında bir tam sayı olmalı.'
   grant-inventory-full: '&7Oyuncunun envanterinde &eyeterli boş yer &7yok. Yer açıp tekrar dene.'
 
+
+  spawn-failed: 'Bu bölgede minyon görüntüsü oluşturulamadı.'
+  invalid-minion-level: 'Geçersiz minyon seviyesi.'
+  invalid-statistics: 'Geçersiz minyon istatistiği.'
+  transfer-rejoin: '&cMinyon işlemi kayda alındı. Kayıt hatası nedeniyle yeniden giriş yapmalısın.'
+  recovery-failed: '&cMinyon kaydın kurtarılamadı. Yöneticiye haber ver.'

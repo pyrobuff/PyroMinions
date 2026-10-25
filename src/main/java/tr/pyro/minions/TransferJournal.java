@@ -69,7 +69,7 @@ final class TransferJournal {
         Path path = root.resolve(player.getUniqueId() + ".yml");
         try {
             if (place) {
-                var remaining = item.clone(); remaining.subtract(1); inventory.setItemInMainHand(remaining);
+                var remaining = item.clone(); remaining.setAmount(remaining.getAmount() - 1); inventory.setItemInMainHand(remaining);
             } else {
                 if (!inventory.addItem(item.clone()).isEmpty()) {
                     inventory.setContents(before); inventory.setItemInMainHand(beforeHand); return false;
@@ -99,15 +99,26 @@ final class TransferJournal {
                 plugin.message(player, "transfer-failed");
             } else {
                 // No retry can issue a second token. On next login replay the committed inventory.
-                player.kick(PyroMinions.text("&cMinyon işlemi kayda alındı. Kayıt hatası nedeniyle yeniden giriş yapmalısın."));
+                player.kickPlayer(PyroMinions.text(plugin.lang("messages.transfer-rejoin", "&cRejoin to recover the saved minion transaction.")));
             }
             plugin.getLogger().log(java.util.logging.Level.SEVERE, "Minyon aktarım kaydı tamamlanamadı: " + player.getUniqueId(), failure);
             return durable;
         }
     }
+    static Path playerDataFile(UUID player) {
+        Path world = org.bukkit.Bukkit.getWorlds().getFirst().getWorldFolder().toPath().toAbsolutePath().normalize();
+        // Since 26.1 Paper may expose a dimension folder instead of the level root.
+        Path root = world;
+        for (int i = 0; i < 5 && root != null; i++, root = root.getParent()) {
+            if (Files.isRegularFile(root.resolve("level.dat"))) break;
+        }
+        if (root == null || !Files.isRegularFile(root.resolve("level.dat"))) root = world;
+        String version = org.bukkit.Bukkit.getBukkitVersion().split("-", 2)[0];
+        boolean modern = Integer.parseInt(version.split("\\.")[0]) >= 26;
+        return root.resolve(modern ? "players/data" : "playerdata").resolve(player + ".dat");
+    }
     private static void savePlayer(Player player) throws IOException {
-        Path data = org.bukkit.Bukkit.getWorlds().getFirst().getWorldFolder().toPath()
-            .resolve("playerdata").resolve(player.getUniqueId() + ".dat");
+        Path data = playerDataFile(player.getUniqueId());
         var previousTime = Files.exists(data) ? Files.getLastModifiedTime(data) : null;
         byte[] previous = Files.exists(data) ? Files.readAllBytes(data) : null;
         player.saveData();
@@ -127,7 +138,7 @@ final class TransferJournal {
             savePlayer(player); Files.delete(path); pending.remove(player.getUniqueId());
         } catch (Exception failure) {
             plugin.getLogger().log(java.util.logging.Level.SEVERE, "Bekleyen minyon işlemi kurtarılamadı", failure);
-            player.kick(PyroMinions.text("&cMinyon kaydın kurtarılamadı. Yöneticiye haber ver."));
+            player.kickPlayer(PyroMinions.text(plugin.lang("messages.recovery-failed", "&cMinion recovery failed. Contact an administrator.")));
         }
     }
 }
